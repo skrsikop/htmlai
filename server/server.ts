@@ -7,36 +7,46 @@ import userRouter from "./routes/user-routes.js";
 import projectRouter from "./routes/projects-routes.js";
 import { stripeWebhook } from "./controllers/stripeWebhook.js";
 
-
-// Create an Express app and Port
+// Create Express app
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// setup cors 
-const corsOptions = {
-    origin: process.env.TRUSTED_ORIGINS?.split(",") || [],
-    credentials: true,
-}
+// Parse JSON
+app.use(express.json({ limit: '50mb' }));
 
-// Middlewares
-app.use(cors(corsOptions))
-app.post('/api/stripe', express.raw({type: 'application/json'}), stripeWebhook);
+// Setup CORS
+const allowedOrigins = process.env.TRUSTED_ORIGINS?.split(",") || [];
+app.use((req: Request, res: Response, next) => {
+    const origin = req.headers.origin;
+    if (origin && allowedOrigins.includes(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    if (req.method === "OPTIONS") return res.sendStatus(200);
+    next();
+});
 
+// Stripe webhook
+app.post('/api/stripe', express.raw({ type: 'application/json' }), stripeWebhook);
 
-app.all('/api/auth/{*any}', toNodeHandler(auth));
-app.use(express.json({limit: '50mb'}));
+// Better Auth routes (with CORS wrapper)
+app.all('/api/auth/:path*', (req, res) => {
+    // Headers already set by CORS middleware
+    return toNodeHandler(auth)(req, res);
+});
 
-// Define a simple route
+// Test route
 app.get('/', (req: Request, res: Response) => {
     res.send('Server is Live!');
 });
 
-// ALL API ROUTES 
-app.use('/api/user', userRouter)
-app.use('/api/project', projectRouter)
+// Other API routes
+app.use('/api/user', userRouter);
+app.use('/api/project', projectRouter);
 
-
-// Start the server
+// Start server
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server running on port ${port}`);
 });
