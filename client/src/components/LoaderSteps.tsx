@@ -51,7 +51,7 @@ const LoaderSteps = () => {
           <div className="w-full mt-4 px-2">
             <div className="h-2 bg-white/6 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-700"
+                className="h-full bg-linear-to-r from-purple-400 to-pink-400 transition-all duration-700"
                 style={{ width: `${progress}%` }}
                 aria-hidden
               />
@@ -59,7 +59,7 @@ const LoaderSteps = () => {
 
             {/* step indicators */}
             <div className="mt-3 flex items-center justify-center gap-3">
-              {steps.map((s, i) => (
+              {steps.map((_, i) => (
                 <span
                   key={i}
                   className={`w-3 h-3 rounded-full transition-all duration-500 ${i === current ? "bg-white/100 scale-110 shadow-lg" : "bg-white/20"}`}

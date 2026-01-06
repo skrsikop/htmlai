@@ -1,9 +1,9 @@
 import OurTestimonials from "../sections/Our-testimonials";
-import SubscribeNewsletter from "../sections/subscribe-newsletter";
-import TrustedCompanies from "../sections/trusted-companies";
-import AboutOurApps from "../sections/about-our-apps";
-import HeroSection from "../sections/hero-section";
-import OurLatestCreation from "../sections/our-latest-creation";
+import SubscribeNewsletter from "../sections/Subscribe-newsletter";
+import TrustedCompanies from "../sections/Trusted-companies";
+import AboutOurApps from "../sections/About-our-apps";
+import HeroSection from "../sections/Hero-section";
+import OurLatestCreation from "../sections/Our-latest-creation";
 
 const Home = () =>  {
     return (

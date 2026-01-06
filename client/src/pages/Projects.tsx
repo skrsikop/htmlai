@@ -28,23 +28,23 @@ const Projects = () => {
           setProject(data.project)
           setIsGenerating(data.project.current_code ? false : true)
           setLoading(false)
-      } catch (error) {
+      } catch (error: any) {
                 toast.error(error?.response?.data?.message || error.message)
                 console.log(error)
       }
   }
 
-  const previewProject = async () => {
-    try {
-      const {data} = await api.get(`/api/project/preview/${projectId}`)
-      setProject(data.project)
-      setIsGenerating(false)
-      setLoading(false)
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || error.message)
-      console.log(error)
-    }
-  }
+  // const previewProject = async () => {
+  //   try {
+  //     const {data} = await api.get(`/api/project/preview/${projectId}`)
+  //     setProject(data.project)
+  //     setIsGenerating(false)
+  //     setLoading(false)
+  //   } catch (error: any) {
+  //     toast.error(error?.response?.data?.message || error.message)
+  //     console.log(error)
+  //   }
+  // }
   const saveProject = async () => {
     if(!previewRef.current) return;
     const code = previewRef.current.getCode();
@@ -91,7 +91,7 @@ const Projects = () => {
   useEffect(() => {
     if(session?.user) {
       fetchProject()
-    } else if(!isPending, !session?.user) {
+    } else if(!isPending &&  !session?.user) {
       navigate('/')
       toast('Please sign in to view your projects')
     }

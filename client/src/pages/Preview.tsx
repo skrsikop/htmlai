@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import {  useParams } from "react-router-dom"
 import { Loader2Icon } from "lucide-react"
 import api from "@/configs/axios"
-import type { Project, Version } from "../types"
-import { toast } from "sonner"
+import type {  Version } from "../types"
 import { authClient } from "@/lib/auth-client"
 
 const Preview = () => {
@@ -12,7 +11,6 @@ const Preview = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const {data: session, isPending} = authClient.useSession()
-  const navigate = useNavigate()
 
   const fetchCode = async () => {
       try {

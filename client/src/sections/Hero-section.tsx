@@ -23,7 +23,7 @@ export default function HeroSection() {
             setLoading(true)
             const {data} = await api.post('/api/user/project', {initial_prompt: input})
             navigate(`/project/${data.projectId}`)
-        } catch (error) {
+        } catch (error: any) {
             setLoading(false)
             toast.error(error?.response?.data?.message || error.message)
             console.log(error)
