@@ -15,20 +15,9 @@ const port = process.env.PORT || 3000;
 app.use(express.json({ limit: '50mb' }));
 
 // Setup CORS
-const allowedOrigins = process.env.TRUSTED_ORIGINS
-  ? process.env.TRUSTED_ORIGINS.split(",").map(o => o.trim())
-  : [];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true); // server-to-server
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error("Not allowed by CORS"));
-  },
-  credentials: true
-}));
+
+app.use(cors());
 
 
 // Stripe webhook
